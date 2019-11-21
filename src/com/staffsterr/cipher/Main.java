@@ -16,7 +16,7 @@ public class Main {
         for(int i = 0; i < alphabetChanged.length - (newCells - cells); i++){
             alphabetChanged[i] = alphabet[newCells - cells + i];
         }
-        System.out.println("Changed alphabet: " + Arrays.toString(alphabetChanged));
+        System.out.println(Arrays.toString(alphabetChanged));
     }
 
     public static void alphabetChangeLeft(int cells){
@@ -28,31 +28,43 @@ public class Main {
         for(int i = 0; i < alphabetChanged.length - (newCells - cells); i++){
             alphabetChanged[alphabetChanged.length - cells + i] = alphabet[i];
         }
-        System.out.println("Changed alphabet: " + Arrays.toString(alphabetChanged));
+        System.out.println(Arrays.toString(alphabetChanged));
     }
 
     public static String encrypt(String decryptMessageString){
         String[] decryptMessage = decryptMessageString.split("");
         String[] encryptMessage = new String[decryptMessage.length];
+        for(int i = 0; i < encryptMessage.length; i++){
+            if(findIndex(alphabet, decryptMessage[i]) != -1){
+                encryptMessage[i] = alphabetChanged[findIndex(alphabet, decryptMessage[i])];
+            }
 
-
-
-
+            else{
+                System.out.println("Symbol \"" + decryptMessage[i] + "\" is unknown!");
+                encryptMessage[i] = "*";
+            }
+        }
         return toString(encryptMessage);
     }
 
     public static String decrypt(String encryptMessageString){
         String[] encryptMessage = encryptMessageString.split("");
         String[] decryptMessage = new String[encryptMessage.length];
+        for(int i = 0; i < decryptMessage.length; i++){
+            if(findIndex(alphabetChanged, encryptMessage[i]) != -1) {
+                decryptMessage[i] = alphabet[findIndex(alphabetChanged, encryptMessage[i])];
+            }
 
-
-
-
+            else{
+                System.out.println("Symbol \"" + encryptMessage[i] + "\" is unknown!");
+                decryptMessage[i] = "*";
+            }
+        }
         return toString(decryptMessage);
     }
 
     public static int findIndex(String[] array, String letter){
-        int index = 0;
+        int index = -1;
         for(int i = 0; i < array.length; i++){
             if(array[i].equals(letter)){
                 index = i;
@@ -101,7 +113,7 @@ public class Main {
             return;
         }
 
-        System.out.println("Main alphabet: " + Arrays.toString(alphabet));
+        System.out.println(Arrays.toString(alphabet));
 
         if(isRight) alphabetChangeRight(cells);
         else if (isLeft) alphabetChangeLeft(cells);
