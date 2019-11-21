@@ -13,10 +13,6 @@ public class Main {
         for(int i = 0; i < alphabetChanged.length - cells; i++, newCells++){
             alphabetChanged[newCells] = alphabet[i];
         }
-//        System.out.println(newCells);
-//        System.out.println(newCells - cells);
-//        System.out.println(alphabetChanged.length - (newCells - cells));
-        System.out.println(alphabet[newCells - cells] + " " + alphabet[newCells - cells + 1]);
         for(int i = 0; i < alphabetChanged.length - (newCells - cells); i++){
             alphabetChanged[i] = alphabet[newCells - cells + i];
         }
@@ -24,10 +20,15 @@ public class Main {
     }
 
     public static void alphabetChangeLeft(int cells){
+        int newCells = cells;
         alphabetChanged = new String[alphabet.length];
-        for(int i = 0; i < alphabetChanged.length; i++){
-
+        for(int i = 0; i < alphabetChanged.length - cells; i++, newCells++){
+            alphabetChanged[i] = alphabet[newCells];
         }
+        for(int i = 0; i < alphabetChanged.length - (newCells - cells); i++){
+            alphabetChanged[alphabetChanged.length - cells + i] = alphabet[i];
+        }
+        System.out.println(Arrays.toString(alphabetChanged));
     }
 
     public static void main(String[] args) throws IOException{
