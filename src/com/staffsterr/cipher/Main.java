@@ -6,6 +6,7 @@ import java.util.*;
 public class Main {
     private static String[] alphabet;
     private static String[] alphabetChanged;
+    private static String[] symbols;
 
     public static void alphabetChangeRight(int cells){
         int newCells = cells;
@@ -38,7 +39,9 @@ public class Main {
             if(findIndex(alphabet, decryptMessage[i]) != -1){
                 encryptMessage[i] = alphabetChanged[findIndex(alphabet, decryptMessage[i])];
             }
-
+            else if(findIndex(symbols, decryptMessage[i]) != -1){
+                encryptMessage[i] = decryptMessage[i];
+            }
             else{
                 System.out.println("Symbol \"" + decryptMessage[i] + "\" is unknown!");
                 encryptMessage[i] = "*";
@@ -54,7 +57,9 @@ public class Main {
             if(findIndex(alphabetChanged, encryptMessage[i]) != -1) {
                 decryptMessage[i] = alphabet[findIndex(alphabetChanged, encryptMessage[i])];
             }
-
+            else if(findIndex(symbols, encryptMessage[i]) != -1){
+                decryptMessage[i] = encryptMessage[i];
+            }
             else{
                 System.out.println("Symbol \"" + encryptMessage[i] + "\" is unknown!");
                 decryptMessage[i] = "*";
@@ -63,10 +68,10 @@ public class Main {
         return toString(decryptMessage);
     }
 
-    public static int findIndex(String[] array, String letter){
+    public static int findIndex(String[] array, String symbol){
         int index = -1;
         for(int i = 0; i < array.length; i++){
-            if(array[i].equals(letter)){
+            if(array[i].equals(symbol)){
                 index = i;
                 break;
             }
@@ -82,9 +87,14 @@ public class Main {
         return string;
     }
 
+    public static void end() throws IOException{
+        System.out.println("\nError!");
+        System.out.println("Press ENTER to exit...");
+        System.in.read();
+    }
 
-    public static void exit() throws IOException{
-        System.out.println("Press ENTER ro exit...");
+    public static void happyEnd() throws IOException{
+        System.out.println("\nPress ENTER to exit...");
         System.in.read();
     }
 
@@ -92,6 +102,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+        symbols = "0123456789 .,;:+-*/`~!@#№$%^&?_\"\'\\<>(){}[]".split("");
 
         System.out.print("Which side(L/R): ");
         String sideChoice = br.readLine();
@@ -100,7 +111,7 @@ public class Main {
         System.out.println("Left: " + isLeft);
         System.out.println("Right: " + isRight);
         if(!(isRight || isLeft)) {
-            exit();
+            end();
             return;
         }
 
@@ -109,7 +120,7 @@ public class Main {
         System.out.println("Cells: " + cells);
         cells %= 26;
         if(cells <= 0) {
-            exit();
+            end();
             return;
         }
 
@@ -136,6 +147,7 @@ public class Main {
             String input = br.readLine();
             System.out.println(decrypt(input));
         }
-        else exit();
+
+        happyEnd();
     }
 }
